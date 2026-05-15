@@ -1,0 +1,8 @@
+interface:
+  display_name: "中文演示大纲设计师"
+  short_description: "生成中文 PPT 大纲、风格指令与逐页视觉叙事。"
+  brand_color: "#007AFF"
+  default_prompt: "Use $presentation-outline-designer to create a Chinese designer-ready outline for a reading-and-sharing presentation."
+
+policy:
+  allow_implicit_invocation: true
