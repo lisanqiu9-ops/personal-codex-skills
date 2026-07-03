@@ -9,11 +9,12 @@ metadata:
 
 This is a short alias for `presentation-outline-designer`.
 
-When this skill triggers, use the canonical skill at:
+When this skill triggers:
 
-`C:/Users/26765/.codex/skills/presentation-outline-designer/SKILL.md`
+1. Read `../presentation-outline-designer/SKILL.md`.
+2. Follow that skill's workflow and references.
 
-Follow that skill's workflow and references. Do not invent a separate process here.
+Do not invent a separate process here.
 
 Use it for:
 

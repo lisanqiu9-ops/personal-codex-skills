@@ -1,73 +1,82 @@
-# PPT Deck Skills
+# Codex Chinese Skill Aliases
 
-一组用于 Codex 的中文 PPT 技能：
+一组个人常用 Codex skills 与中文友好别名，方便在新电脑上快速安装。
 
-- `presentation-outline-designer`：核心技能。用于解析文章、PDF、截图或单页内容，生成 PPT 大纲、风格指令、视觉叙事方案、网页端生图提示词，或进入成品 PNG 生产流程。
-- `ppt-deck`：短别名。日常调用时直接记 `$ppt-deck` 即可。
+## Included Skills
 
-## 适合场景
+- `presentation-outline-designer`：核心 PPT 大纲与视觉叙事技能。
+- `ppt-deck`：`presentation-outline-designer` 的短别名。
+- `chinese-official-document-format`：中文公文、申报材料、正式 DOCX 的格式规范技能。
+- `gongwen`：`chinese-official-document-format` 的短别名。
+- `ppt-handdrawn`：`ian-handdrawn-ppt` 的短别名。
 
-- 把 PDF / 文章解析成演示文稿大纲
-- 区赛、校赛、汇报、课程、路演、阅读型分享 PPT
-- 单页密集 PPT 截图解析，提炼重点并生成网页端生图 prompt
-- 先解析后生成：先做叙事骨架，再做视觉生成提示词
-- 指定任意风格：科技创新风、政务汇报风、商业咨询风、杂志编辑风、儿童绘本风、数据仪表盘风等
+## External Dependency
 
-## 安装
-
-将本仓库中的两个文件夹复制到你的 Codex skills 目录：
+`ppt-handdrawn` 依赖另一个独立仓库中的核心技能：
 
 ```text
-presentation-outline-designer
-ppt-deck
+https://github.com/helloianneo/ian-handdrawn-ppt
 ```
 
-Windows 默认路径通常是：
+如果要使用 `ppt-handdrawn`，需要先把该仓库里的 `ian-handdrawn-ppt` 安装到 Codex skills 目录。
+
+## Quick Install
+
+Windows PowerShell：
+
+```powershell
+$repo = "$env:TEMP\ppt-deck-skills"
+$dest = "$env:USERPROFILE\.codex\skills"
+
+Remove-Item $repo -Recurse -Force -ErrorAction SilentlyContinue
+git clone https://github.com/lisanqiu9-ops/ppt-deck-skills.git $repo
+New-Item -ItemType Directory -Force -Path $dest | Out-Null
+
+Copy-Item "$repo\presentation-outline-designer" -Destination $dest -Recurse -Force
+Copy-Item "$repo\ppt-deck" -Destination $dest -Recurse -Force
+Copy-Item "$repo\chinese-official-document-format" -Destination $dest -Recurse -Force
+Copy-Item "$repo\gongwen" -Destination $dest -Recurse -Force
+Copy-Item "$repo\ppt-handdrawn" -Destination $dest -Recurse -Force
+```
+
+安装后重启 Codex。
+
+## Optional: Install Handdrawn Core
+
+只有需要使用 `ppt-handdrawn` 时才需要安装：
+
+```powershell
+$repo = "$env:TEMP\ian-handdrawn-ppt"
+$dest = "$env:USERPROFILE\.codex\skills"
+
+Remove-Item $repo -Recurse -Force -ErrorAction SilentlyContinue
+git clone https://github.com/helloianneo/ian-handdrawn-ppt.git $repo
+New-Item -ItemType Directory -Force -Path $dest | Out-Null
+
+Copy-Item "$repo\ian-handdrawn-ppt" -Destination $dest -Recurse -Force
+```
+
+安装后重启 Codex。
+
+## Alias Map
 
 ```text
-C:\Users\你的用户名\.codex\skills\
+ppt-deck      -> presentation-outline-designer
+gongwen       -> chinese-official-document-format
+ppt-handdrawn -> ian-handdrawn-ppt
 ```
 
-复制后结构应类似：
+## Common Calls
 
 ```text
-C:\Users\你的用户名\.codex\skills\presentation-outline-designer\SKILL.md
-C:\Users\你的用户名\.codex\skills\presentation-outline-designer\references\style_patterns.md
-C:\Users\你的用户名\.codex\skills\presentation-outline-designer\references\production_workflow.md
-C:\Users\你的用户名\.codex\skills\ppt-deck\SKILL.md
-```
-
-## 常用调用
-
-```text
-用 $ppt-deck 解析这个 PDF，生成一套 15 页以内的中文 PPT 大纲。
+用 /ppt-deck 解析这个 PDF，生成一套 15 页以内的中文 PPT 大纲。
 ```
 
 ```text
-用 $ppt-deck 做单页解析，只输出网页端生图提示词。
-风格：科技企业汇报风。
+用 /gongwen 优化这个 DOCX，按我的公文规范处理。
 ```
 
 ```text
-用 $ppt-deck 先解析后生成 12 张科技创新校园风 PNG。
+用 /ppt-handdrawn 把这份课程大纲整理成 8 页中文手绘技术课件图。
 ```
 
-```text
-用 $ppt-deck 把这页密集内容提炼成适合汇报展示的信息图 prompt。
-```
-
-## 输出模式
-
-- `Blueprint Mode`：只输出 PPT 大纲、风格指令和逐页视觉方案。
-- `Production Mode`：先解析，再生成成品 PNG 页面图。
-- `Single Page Prompt Mode`：针对单页截图或单页内容，只输出完整可复制的网页端生图 prompt。
-
-## 设计原则
-
-这个技能不是固定某一种风格，而是一套流程：
-
-```text
-解析内容 → 判断受众与场景 → 提炼叙事主线 → 锁定视觉风格 → 输出大纲或生图 prompt
-```
-
-当用户明确指定风格时，以用户指定风格为准；未指定时，技能会根据主题和受众自动选择合适风格。
