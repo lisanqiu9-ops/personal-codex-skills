@@ -1,3 +1,0 @@
-﻿display_name: 中文公文格式
-short_description: 按中文公文和申报材料规范整理 Word 版式。
-default_prompt: Use $chinese-official-document-format to format this Word document according to Chinese official document style.

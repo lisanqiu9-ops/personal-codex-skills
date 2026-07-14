@@ -42,6 +42,13 @@ Approximate Word sizes:
 - Keep heading paragraphs unindented unless the template shows otherwise.
 - Keep title centered and unindented.
 
+## Image Paragraph Rules
+
+- Put each inline image in its own paragraph and center that paragraph unless the source template requires another alignment.
+- Explicitly set the image paragraph to single line spacing. Clear inherited exact/fixed line spacing before saving the DOCX.
+- Never reuse the body's fixed line spacing on an image paragraph. In Microsoft Word, a fixed line box can clip a full-size image into a narrow horizontal strip.
+- Keep the caption in a separate paragraph immediately after the image. The caption may follow the document's caption spacing, but it must not force fixed line spacing onto the image paragraph.
+
 ## Heading Hierarchy
 
 Use this hierarchy:

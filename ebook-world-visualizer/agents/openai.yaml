@@ -1,0 +1,3 @@
+display_name: Ebook World Visualizer
+short_description: Extracts characters, factions, relationships, and image prompts from long ebooks.
+default_prompt: Use $ebook-world-visualizer to analyze this ebook into a chapter index, character database, faction map, relationship graph, and visual prompt pack.
