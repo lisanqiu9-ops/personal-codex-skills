@@ -60,13 +60,47 @@ Use this hierarchy:
 
 Avoid mixing Markdown-style headings, colored headings, and decorative numbering in formal Chinese documents.
 
+## Word Navigation Rules
+
+- DOCX outputs should have a usable Word navigation pane when the document has sections.
+- Apply real Word heading styles or OOXML outline levels to structural headings. Visual formatting alone does not create navigation entries.
+- Map heading levels as follows:
+  - `一、二、三、` first-level headings: Word `Heading 1` or `outlineLvl=0`.
+  - `（一）（二）（三）` second-level headings: Word `Heading 2` or `outlineLvl=1`.
+  - `1. 2. 3.` third-level headings: Word `Heading 3` or `outlineLvl=2` only when subnavigation is useful.
+- Keep公文 visual formatting on those heading styles: first-level headings use 黑体, second-level headings use 楷体, third-level headings use 仿宋.
+- Do not use bullets to simulate headings. A line such as `· （五）杆塔命名` should be converted to a real heading paragraph if it is a section title.
+- Avoid putting structural headings inside tables when possible. Word navigation does not reliably pick up table-contained headings across versions; place a real heading paragraph before the table or set an explicit outline level if preserving the table is required.
+- Do not mark figure captions such as `图1` or table captions such as `表1` as headings unless the user explicitly wants captions in navigation.
+- After editing, verify the navigation structurally by checking that heading paragraphs have style names like `Heading 1`/`Heading 2` or contain `w:outlineLvl`.
+
+Implementation notes for DOCX automation:
+
+- With `python-docx`, set the paragraph style first, then override the visual font to match公文 style, for example `paragraph.style = doc.styles["Heading 1"]` plus 黑体 formatting.
+- Word built-in heading styles often render blue by default. After applying `Heading 1`/`Heading 2`, explicitly override the style or runs to black text; 公文 headings must not stay blue unless the source template requires it.
+- Also update the built-in style definitions themselves when practical (`doc.styles["Heading 1"]`, `doc.styles["Heading 2"]`, and any used `Title` style) so the Word style gallery does not show or reapply blue heading colors.
+- When overriding color in OOXML, remove or replace theme color attributes such as `w:themeColor`; setting a direct black `w:color` while leaving a theme color can still render unexpectedly in some Word themes.
+- If using a custom or normal paragraph style, add OOXML `w:outlineLvl` to the paragraph properties instead of relying on bold/size formatting.
+- Do not apply body first-line indent to heading paragraphs; headings should normally be unindented unless the source template explicitly shows otherwise.
+
 ## Title Rules
 
 - Use 2号方正小标宋_GBK or fallback title font.
 - Center the title.
+- Use black text only. Do not leave Word's built-in `Title` style blue theme color, underline, border, or decorative rule on the title.
+- Prefer a plain title paragraph with explicit formatting over Word's built-in `Title` style. If the built-in `Title` style is used, override its font family, size, color, spacing, and remove decorative borders/rules.
+- Main title size should be about 2号 / 22 pt. It should normally not be bold if using 小标宋; do not simulate 小标宋 by using blue, bold, or decorative heading styles.
+- A subtitle or internal-use note below the title should be black, centered, smaller than the title, and usually 楷体 or 仿宋. It should not appear in the Word navigation pane unless the user explicitly asks.
 - If the title wraps, keep phrase meaning complete on each line.
 - Wrapped title lines should look balanced, preferably trapezoid or diamond-like in visual arrangement.
 - Do not add colored underline, borders, or decorative rules under the title unless a specific template requires it.
+
+Final DOCX audit:
+
+- Main title is black, centered, 22 pt, and uses 小标宋/宋体-family fallback.
+- Structural headings appear in Word navigation and render black, not blue.
+- `Heading 1` and `Heading 2` style definitions are black if those styles are used.
+- Figure/table captions and subtitles are not included in navigation.
 
 ## Attachment Rules
 
